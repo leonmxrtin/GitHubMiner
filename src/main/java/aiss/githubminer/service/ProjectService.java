@@ -21,11 +21,13 @@ public class ProjectService {
 
     private final String baseUri = "https://api.github.com/repos";
 
+    private final String gitMinerUri = "http://localhost:8080/gitminer/projects";
+
     // TODO: add commit and issue logic
     public Project getProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages)
         throws ProjectNotFoundException {
-        String uri = baseUri + "/repos/" + owner + "/" + repo + "?perPage=" + maxPages;
-        ResponseEntity<Project> response = null;
+        String uri = baseUri + "/" + owner + "/" + repo + "?perPage=" + maxPages;
+        ResponseEntity<Project> response;
         ResponseEntity<Commit[]> commits = null;
         ResponseEntity<Issue[]> issues = null;
         if (token != null) {
@@ -56,5 +58,10 @@ public class ProjectService {
 //            project.setIssues(issues);
 //        }
         return project;
+    }
+
+    public Project createProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages) {
+        Project project = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
+        return restTemplate.postForObject(gitMinerUri, project, Project.class);
     }
 }

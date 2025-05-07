@@ -18,25 +18,30 @@ public class Project {
     private List<Commit> commits;
     private List<Issue> issues;
 
-    public String id() { return id; }
+    @JsonProperty("id")
+    public String getId() { return id; }
+    @JsonProperty("id")
+    public void setId(String id) { this.id = id; }
 
-    public Project setId(String id) { this.id = id; return this; }
+    @JsonProperty("name")
+    public String getName() { return name; }
+    @JsonProperty("name")
+    public void setName(String name) { this.name = name; }
 
-    public String name() { return name; }
+    @JsonProperty("web_url")
+    public String getWeb_url() { return web_url; }
+    @JsonProperty("html_url")
+    public void setWeb_url(String web_url) { this.web_url = web_url; }
 
-    public Project setName(String name) { this.name = name; return this; }
+    @JsonProperty("commits")
+    public List<Commit> getCommits() { return commits; }
+    @JsonProperty("commits")
+    public void setCommits(List<Commit> commits) { this.commits = commits; }
 
-    public String web_url() { return web_url; }
-
-    public Project setWeb_url(String web_url) { this.web_url = web_url; return this; }
-
-    public List<Commit> commits() { return commits; }
-
-    public Project setCommits(List<Commit> commits) { this.commits = commits; return this; }
-
-    public List<Issue> issues() { return issues; }
-
-    public Project setIssues(List<Issue> issues) { this.issues = issues; return this; }
+    @JsonProperty("issues")
+    public List<Issue> getIssues() { return issues; }
+    @JsonProperty("issues")
+    public void setIssues(List<Issue> issues) { this.issues = issues; }
 
     public Project() {
         commits = new ArrayList<>();
