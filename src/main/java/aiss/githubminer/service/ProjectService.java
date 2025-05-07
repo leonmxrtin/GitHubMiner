@@ -25,8 +25,7 @@ public class ProjectService {
 
     // TODO: add commit and issue logic
     public Project getProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages)
-        throws ProjectNotFoundException {
-
+            throws ProjectNotFoundException {
         String uri = baseUri + "/" + owner + "/" + repo + "?perPage=" + maxPages;
         ResponseEntity<Project> response;
         ResponseEntity<Commit[]> commits = null;
@@ -62,8 +61,7 @@ public class ProjectService {
     }
 
     public Project createProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages)
-        throws ProjectNotFoundException {
-
+            throws ProjectNotFoundException {
         Project project = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
         return restTemplate.postForObject(gitMinerUri, project, Project.class);
     }

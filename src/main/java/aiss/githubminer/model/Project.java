@@ -9,11 +9,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Project {
 
-    @JsonProperty("id")
+
     private String id;
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("html_url")
     private String web_url;
     private List<Commit> commits;
     private List<Issue> issues;
@@ -30,7 +28,7 @@ public class Project {
 
     @JsonProperty("web_url")
     public String getWeb_url() { return web_url; }
-    @JsonProperty("html_url")
+    @JsonProperty("url")
     public void setWeb_url(String web_url) { this.web_url = web_url; }
 
     @JsonProperty("commits")
@@ -72,5 +70,4 @@ public class Project {
         }
         return sb.toString();
     }
-
 }
