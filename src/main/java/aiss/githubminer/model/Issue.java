@@ -2,6 +2,7 @@ package aiss.githubminer.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Issue {
@@ -41,6 +42,11 @@ public class Issue {
 
     @JsonProperty("closed_at")
     private String closedAt;
+
+    public Issue () {
+        comments = new ArrayList<>();
+        labels = new ArrayList<>();
+    }
 
     public String getId() {
         return id;
