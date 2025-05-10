@@ -16,6 +16,9 @@ public class CommentService {
     @Autowired
     RestTemplate restGitHub;
 
+    @Autowired
+    private UserService userService;
+
     public List<Comment> getIssueComments(String owner, String repo, Integer sinceDays, Integer maxPages) {
         String commentsUri = "/repos/" + owner + "/" + repo + "/issues/comments";
         String isoDate = LocalDateTime.now().minusDays(sinceDays).toLocalDate().toString();
@@ -30,6 +33,12 @@ public class CommentService {
             if (fetchedComments != null) {
                 comments.addAll(Arrays.stream(fetchedComments).toList());
             }
+        }
+
+        for (Comment comment : comments) {
+            // Update the User object because response from comments endpoint does not include the user's full name.
+            // This process slows down the fetching process.
+            comment.setAuthor(userService.getUser(comment.getAuthor().getUsername()));
         }
 
         return comments;

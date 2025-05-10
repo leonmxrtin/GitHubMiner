@@ -1,0 +1,17 @@
+package aiss.githubminer.service;
+
+import aiss.githubminer.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class UserService {
+
+    @Autowired
+    RestTemplate restGitHub;
+
+    public User getUser(String username) {
+        return restGitHub.getForObject("/users/" + username, User.class);
+    }
+}

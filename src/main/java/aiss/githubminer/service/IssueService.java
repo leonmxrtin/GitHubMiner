@@ -19,6 +19,9 @@ public class IssueService {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private UserService userService;
+
     public List<Issue> getIssues(String owner, String repo, Integer sinceDays, Integer maxPages) {
         String issuesUri = "/repos/" + owner + "/" + repo + "/issues";
         String isoDate = LocalDateTime.now().minusDays(sinceDays).toLocalDate().toString();
@@ -36,6 +39,12 @@ public class IssueService {
         }
 
         for (Issue issue : issues) {
+            // Update the User object because response from issues endpoint does not include the user's full name.
+            // This process slows down the fetching process.
+            if (issue.getAssignee() != null) {
+                issue.setAssignee(userService.getUser(issue.getAssignee().getUsername()));
+            }
+            issue.setAuthor(userService.getUser(issue.getAuthor().getUsername()));
             issue.setComments(commentService.getIssueComments(owner, repo, sinceDays, maxPages));
         }
 
