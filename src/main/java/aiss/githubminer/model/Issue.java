@@ -1,38 +1,34 @@
 package aiss.githubminer.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Issue {
 
-    @JsonProperty("id")
-    private String id;
+    public Issue() {
+        labels = new ArrayList<>();
+    }
 
-    @JsonProperty("title")
     private String title;
-
-    @JsonProperty("state")
     private String state;
-
-    @JsonProperty("votes")
-    private Integer votes;
-
-    @JsonProperty("author")
-    private User author;
-
-    @JsonProperty("assignee")
     private User assignee;
 
-    @JsonProperty("comments")
+    // Ignore comments value from Issue JSON, as it corresponds to the comments amount, not a list.
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Comment> comments;
 
-    @JsonProperty("description")
-    private String description;
+    @JsonAlias("number")
+    private String id;
 
-    @JsonProperty("labels")
-    private List<String> labels;
+    @JsonAlias("user")
+    private User author;
+
+    @JsonAlias("body")
+    private String description;
 
     @JsonProperty("created_at")
     private String createdAt;
@@ -43,17 +39,18 @@ public class Issue {
     @JsonProperty("closed_at")
     private String closedAt;
 
-    public Issue () {
-        comments = new ArrayList<>();
-        labels = new ArrayList<>();
+    private Integer votes;
+    @JsonProperty("reactions")
+    private void unpackReactions(JsonNode reactions) {
+        this.votes = reactions.get("total_count").asInt();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    private List<String> labels;
+    @JsonProperty("labels")
+    private void unpackLabels(JsonNode labels) {
+        for (JsonNode label : labels) {
+            this.labels.add(label.get("name").asText());
+        }
     }
 
     public String getTitle() {
@@ -72,22 +69,6 @@ public class Issue {
         this.state = state;
     }
 
-    public Integer getVotes() {
-        return votes;
-    }
-
-    public void setVotes(Integer votes) {
-        this.votes = votes;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
     public User getAssignee() {
         return assignee;
     }
@@ -104,20 +85,28 @@ public class Issue {
         this.comments = comments;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<String> getLabels() {
-        return labels;
-    }
-
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
     }
 
     public String getCreatedAt() {
@@ -144,21 +133,37 @@ public class Issue {
         this.closedAt = closedAt;
     }
 
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
+
     @Override
     public String toString() {
         return "Issue{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", state='" + state + '\'' +
-                ", votes=" + votes +
-                ", author=" + author +
                 ", assignee=" + assignee +
                 ", comments=" + comments +
+                ", id='" + id + '\'' +
+                ", author=" + author +
                 ", description='" + description + '\'' +
-                ", labels=" + labels +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 ", closedAt='" + closedAt + '\'' +
+                ", votes=" + votes +
+                ", labels=" + labels +
                 '}';
     }
 }
