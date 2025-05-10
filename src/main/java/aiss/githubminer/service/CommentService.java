@@ -38,7 +38,9 @@ public class CommentService {
         for (Comment comment : comments) {
             // Update the User object because response from comments endpoint does not include the user's full name.
             // This process slows down the fetching process.
-            comment.setAuthor(userService.getUser(comment.getAuthor().getUsername()));
+            String authorUsername = comment.getAuthor().getUsername();
+            String authorName = userService.getUser(authorUsername).getName();
+            comment.getAuthor().setName(authorName);
         }
 
         return comments;

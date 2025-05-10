@@ -42,9 +42,14 @@ public class IssueService {
             // Update the User object because response from issues endpoint does not include the user's full name.
             // This process slows down the fetching process.
             if (issue.getAssignee() != null) {
-                issue.setAssignee(userService.getUser(issue.getAssignee().getUsername()));
+                String assigneeUsername = issue.getAssignee().getUsername();
+                String assigneeName = userService.getUser(assigneeUsername).getName();
+                issue.getAssignee().setName(assigneeName);
             }
-            issue.setAuthor(userService.getUser(issue.getAuthor().getUsername()));
+            String authorUsername = issue.getAuthor().getUsername();
+            String authorName = userService.getUser(authorUsername).getName();
+            issue.getAuthor().setName(authorName);
+
             issue.setComments(commentService.getIssueComments(owner, repo, sinceDays, maxPages));
         }
 
