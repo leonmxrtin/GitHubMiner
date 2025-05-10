@@ -10,51 +10,54 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Objects.isNull;
+
 @Service
 public class ProjectService {
 
     @Value("${githubAPI.token}")
     private String token;
 
+    @Value(("${github.uri}"))
+    private String baseUri;
+
     @Autowired
     RestTemplate restTemplate;
 
-    private final String baseUri = "https://api.github.com/repos";
-
-    private final String gitMinerUri = "http://localhost:8080/gitminer/projects";
+    final String gitMinerUri = "http://localhost:8080/gitminer/projects";
 
     // TODO: add commit and issue logic
     public Project getProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages)
             throws ProjectNotFoundException {
-        String uri = baseUri + "/" + owner + "/" + repo + "?perPage=" + maxPages;
+        String uri = baseUri + "/repos/" + owner + "/" + repo + "?perPage=" + maxPages;
         ResponseEntity<Project> response;
-        ResponseEntity<Commit[]> commits = null;
-        ResponseEntity<Issue[]> issues = null;
+//        List<Commit> commits = new ArrayList<>();
+//        List<Issue> issues = new ArrayList<>();
         if (token != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + token);
             HttpEntity<Object> entity = new HttpEntity<>(null, headers);
             response = restTemplate.exchange(uri, HttpMethod.GET, entity, Project.class);
-            if (response.getStatusCode() != HttpStatus.OK) {
-                throw new ProjectNotFoundException();
-            }
-//            commits = restTemplate.exchange(uri + "/commits", HttpMethod.GET, entity, Commit[].class);
-//            issues = restTemplate.getForObject(uri + "/issued", HttpMethod.GET, entity, Issue[].class);
         } else {
             response = restTemplate.getForEntity(uri, Project.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new ProjectNotFoundException();
             }
-//            Commit[] commits = restTemplate.getForObject(uri + "/commits", Commit[].class);
-//            Issue[] issues = restTemplate.getForObject(uri + "/issues", Issue[].class);
+        }
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new ProjectNotFoundException();
         }
         Project project = response.getBody();
+//        commits = commitService.getCommits(owner, repo, sinceCommits, maxPages);
+//        issues = issueService.getIssues(owner, repo, sinceIssues, maxPages);
 //        if (!isNull(commits)) {
-//            commits = Arrays.stream(commits).toList().limit(nCommits);
 //            project.setCommits(commits);
 //        }
+//        project.setCommits(commits);
 //        if (!isNull(issues)) {
-//            issues = Arrays.stream(issues).toList().limit(nIssues);
 //            project.setIssues(issues);
 //        }
         return project;
