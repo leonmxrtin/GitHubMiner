@@ -4,6 +4,7 @@ import aiss.githubminer.exception.ProjectNotFoundException;
 import aiss.githubminer.model.Project;
 import aiss.githubminer.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,8 +28,10 @@ public class ProjectController {
                     content = {@Content(schema = @Schema(implementation = Project.class), mediaType = "application/json")})
     })
     @GetMapping("/{owner}/{repoName}")
-    public Project getProject(@PathVariable String owner,
-                              @PathVariable String repoName,
+    public Project getProject(@Parameter(description = "Owner of the project")
+                                  @PathVariable String owner,
+                              @Parameter(description = "Name of the project")
+                                  @PathVariable String repoName,
                               @RequestParam(defaultValue = "2") Integer sinceCommits,
                               @RequestParam(defaultValue = "20") Integer sinceIssues,
                               @RequestParam(defaultValue = "2") Integer maxPages)
