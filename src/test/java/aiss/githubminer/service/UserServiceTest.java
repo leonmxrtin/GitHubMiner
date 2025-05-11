@@ -17,10 +17,23 @@ class UserServiceTest {
     @Test
     @DisplayName("Get a user")
     void getUser() {
-        User user = userService.getUser("reda-alaoui");
+        String username = "reda-alaoui";
+
+        String expectedUserId = "2890843";
+        String expectedUserName = "Réda Housni Alaoui";
+        String expectedUserAvatarUrl = "https://avatars.githubusercontent.com/u/2890843?v=4";
+        String expectedUserWebUrl = "https://github.com/reda-alaoui";
+
+
+        User user = userService.getUser(username);
         assertNotNull(user);
-        assertEquals("2890843", user.getId());
-        assertEquals("Réda Housni Alaoui", user.getName());
+
+        assertEquals(username, user.getUsername());
+        assertEquals(expectedUserId, user.getId());
+        assertEquals(expectedUserName, user.getName());
+        assertEquals(expectedUserAvatarUrl, user.getAvatarUrl());
+        assertEquals(expectedUserWebUrl, user.getWebUrl());
+
         System.out.println(user);
     }
 }
