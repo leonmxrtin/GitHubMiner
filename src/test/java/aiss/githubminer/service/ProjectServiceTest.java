@@ -27,6 +27,7 @@ class ProjectServiceTest {
         assertEquals("spring-framework", project.getName());
         assertNotNull(project.getCommits());
         assertNotNull(project.getIssues());
+        System.out.println(project);
     }
 
     @Test
@@ -41,5 +42,6 @@ class ProjectServiceTest {
         assertEquals("spring-framework", project.getName());
         assertNotNull(project.getCommits());
         assertNotNull(project.getIssues());
+        System.out.println(project);
     }
 }
