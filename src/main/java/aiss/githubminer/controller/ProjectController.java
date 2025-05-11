@@ -42,7 +42,7 @@ public class ProjectController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    content = {@Content(schema = @Schema(implementation = Project.class), mediaType = "application/json")})
+                    content = {@Content(schema = @Schema(implementation = String.class), mediaType = "application/json")})
     })
     @PostMapping("/{owner}/{repoName}")
     public String createProject(@PathVariable String owner,
