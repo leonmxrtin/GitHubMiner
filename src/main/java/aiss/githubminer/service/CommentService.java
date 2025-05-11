@@ -19,8 +19,8 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
-    public List<Comment> getIssueComments(String owner, String repo, Integer sinceDays, Integer maxPages) {
-        String commentsUri = "/repos/" + owner + "/" + repo + "/issues/comments";
+    public List<Comment> getIssueComments(String owner, String repo, String issueId, Integer sinceDays, Integer maxPages) {
+        String commentsUri = "/repos/" + owner + "/" + repo + "/issues/" + issueId + "/comments";
         String isoDate = LocalDateTime.now().minusDays(sinceDays).toLocalDate().toString();
 
         List<Comment> comments = new ArrayList<>();

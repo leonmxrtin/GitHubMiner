@@ -50,7 +50,7 @@ public class IssueService {
             String authorName = userService.getUser(authorUsername).getName();
             issue.getAuthor().setName(authorName);
 
-            issue.setComments(commentService.getIssueComments(owner, repo, sinceDays, maxPages));
+            issue.setComments(commentService.getIssueComments(owner, repo, issue.getId(), sinceDays, maxPages));
         }
 
         return issues;
