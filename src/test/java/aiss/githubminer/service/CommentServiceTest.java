@@ -1,6 +1,7 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.Comment;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ class CommentServiceTest {
     CommentService commentService;
 
     @Test
+    @DisplayName("Get comments of an issue")
     void getIssueComments() {
         String owner = "spring-projects";
         String repo = "spring-framework";

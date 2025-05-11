@@ -17,14 +17,18 @@ class IssueServiceTest {
     IssueService issueService;
 
     @Test
-    @DisplayName("Get all issues of a project")
+    @DisplayName("Get issues of a project")
     void getIssues() {
         String owner = "spring-projects";
         String repo = "spring-framework";
         Integer sinceDays = 3;
         Integer maxPages = 2;
+        String expectedId = "34878";
+        String expectedTitle = "Add a heartbeat executor for SSE emitters";
         List<Issue> issues = issueService.getIssues(owner, repo, sinceDays, maxPages);
         assertNotNull(issues);
+        assertFalse(issues.isEmpty());
+        assertTrue(issues.stream().anyMatch(i -> i.getId().equals(expectedId) && i.getTitle().equals(expectedTitle)));
         System.out.println(issues);
     }
 }
