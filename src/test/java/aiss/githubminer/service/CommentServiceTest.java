@@ -23,7 +23,6 @@ class CommentServiceTest {
         String expectedCommentId = "492051943";
         String expectedCommentBody = "Spring Framework can work in [GraalVM](https://www.graalvm.org/) mode will be excited. And Which spring framework release version do we plan to support GraalVM with native image? 5.X Or ? Thanks ";
 
-
         List<Comment> comments = commentService.getIssueComments(owner, repo, issueId, sinceDays, maxPages);
         assertNotNull(comments);
         assertFalse(comments.isEmpty());
