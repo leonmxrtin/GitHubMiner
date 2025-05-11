@@ -2,6 +2,7 @@ package aiss.githubminer.service;
 
 import aiss.githubminer.model.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +23,9 @@ public class IssueService {
     @Autowired
     private UserService userService;
 
+    @Value("${github.user.fetch}")
+    private boolean fetchUser;
+
     public List<Issue> getIssues(String owner, String repo, Integer sinceDays, Integer maxPages) {
         String issuesUri = "/repos/" + owner + "/" + repo + "/issues";
         String isoDate = LocalDateTime.now().minusDays(sinceDays).toLocalDate().toString();
@@ -39,16 +43,18 @@ public class IssueService {
         }
 
         for (Issue issue : issues) {
-            // Update the User object because response from issues endpoint does not include the user's full name.
-            // This process slows down the fetching process.
-            if (issue.getAssignee() != null) {
-                String assigneeUsername = issue.getAssignee().getUsername();
-                String assigneeName = userService.getUser(assigneeUsername).getName();
-                issue.getAssignee().setName(assigneeName);
+            if (fetchUser) {
+                // Update the User object because response from issues endpoint does not include the user's full name.
+                // This process slows down the fetching process.
+                if (issue.getAssignee() != null) {
+                    String assigneeUsername = issue.getAssignee().getUsername();
+                    String assigneeName = userService.getUser(assigneeUsername).getName();
+                    issue.getAssignee().setName(assigneeName);
+                }
+                String authorUsername = issue.getAuthor().getUsername();
+                String authorName = userService.getUser(authorUsername).getName();
+                issue.getAuthor().setName(authorName);
             }
-            String authorUsername = issue.getAuthor().getUsername();
-            String authorName = userService.getUser(authorUsername).getName();
-            issue.getAuthor().setName(authorName);
 
             issue.setComments(commentService.getIssueComments(owner, repo, issue.getId(), sinceDays, maxPages));
         }
