@@ -9,7 +9,7 @@ public class Commit {
     private String id;
 
     @JsonProperty("web_url")
-    @JsonAlias("url")
+    @JsonAlias("html_url")
     private String webUrl;
 
     private String title;
