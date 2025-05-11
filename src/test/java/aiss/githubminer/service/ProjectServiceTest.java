@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -28,7 +26,7 @@ class ProjectServiceTest {
         assertNotNull(project);
         assertEquals("spring-framework", project.getName());
         assertNotNull(project.getCommits());
-//        assertNotNull(project.getIssues());
+        assertNotNull(project.getIssues());
     }
 
     @Test
@@ -42,6 +40,6 @@ class ProjectServiceTest {
         assertNotNull(project);
         assertEquals("spring-framework", project.getName());
         assertNotNull(project.getCommits());
-//        assertNotNull(project.getIssues());
+        assertNotNull(project.getIssues());
     }
 }
