@@ -41,9 +41,9 @@ public class ProjectService {
         return project;
     }
 
-    public Project createProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages)
+    public String createProject(String owner, String repo, Integer sinceCommits, Integer sinceIssues, Integer maxPages)
             throws ProjectNotFoundException {
         Project project = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
-        return restGitMiner.postForObject("/projects", project, Project.class);
+        return restGitMiner.postForObject("/projects", project, String.class);
     }
 }

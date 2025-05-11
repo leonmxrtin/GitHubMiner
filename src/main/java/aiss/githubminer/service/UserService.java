@@ -14,7 +14,6 @@ public class UserService {
 
     @Cacheable("users")
     public User getUser(String username) {
-        System.out.println("Getting user " + username);
         return restGitHub.getForObject("/users/" + username, User.class);
     }
 }

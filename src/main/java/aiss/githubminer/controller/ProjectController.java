@@ -24,7 +24,7 @@ public class ProjectController {
     }
 
     @PostMapping("/{owner}/{repoName}")
-    public Project createProject(@PathVariable String owner,
+    public String createProject(@PathVariable String owner,
                               @PathVariable String repoName,
                               @RequestParam(defaultValue = "2") Integer sinceCommits,
                               @RequestParam(defaultValue = "20") Integer sinceIssues,
