@@ -4,14 +4,16 @@ import aiss.githubminer.model.Comment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class CommentServiceTest {
+
     @Autowired
     CommentService commentService;
+
     @Test
     void getIssueComments() {
         String owner = "spring-projects";

@@ -1,7 +1,6 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.Commit;
-import aiss.githubminer.model.Issue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +14,7 @@ class CommitServiceTest {
 
     @Autowired
     CommitService commitService;
+
     @Test
     void getCommits() {
         String owner = "spring-projects";
