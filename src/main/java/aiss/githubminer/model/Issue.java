@@ -13,6 +13,7 @@ public class Issue {
         labels = new ArrayList<>();
     }
 
+    private String id;
     private String title;
     private String state;
     private User assignee;
@@ -20,9 +21,6 @@ public class Issue {
     // Ignore comments value from Issue JSON, as it corresponds to the comments amount, not a list.
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Comment> comments;
-
-    @JsonAlias("number")
-    private String id;
 
     @JsonAlias("user")
     private User author;
